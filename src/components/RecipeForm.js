@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-
+import MyContext from '../context/MyContext';
+import { useHistory } from "react-router-dom";
 const RecipeForm = (props) => {
-    const { recipes, setRecipes } = props;
+    const context = useContext(MyContext)
+    const { recipes, setRecipes, user } = context;
+    let history = useHistory();
+
     useEffect(() => {
-        console.log("🚀 ~ file: RecipeForm.js ~ line 6 ~ RecipeForm ~ props", props)
+        console.log("🚀 ~ file: RecipeForm.js ~ line 8 ~ RecipeForm ~ context", context)
 
     }, [props])
 
@@ -40,10 +44,12 @@ const RecipeForm = (props) => {
         let newRecipe = { ...values, ingredients: arrIngredients };
         let newRecipesList = [...recipes, newRecipe];
         setRecipes(newRecipesList);
+        history.push('/');
     }
 
     return (
         <div className="recipes-form-container">
+            <h1>Hola {user}</h1>
             <h1>Agregar nueva receta:</h1>
             <Formik initialValues={recipeFormData}
                 validationSchema={SignupSchema}
